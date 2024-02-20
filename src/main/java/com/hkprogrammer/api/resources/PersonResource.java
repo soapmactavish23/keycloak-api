@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,48 +27,41 @@ public class PersonResource {
 	@Autowired
 	private PersonService service;
 	
-	@GetMapping
-	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping	
 	public List<Person> findAll() {
 		return service.findAll();
 	}
 	
 	@GetMapping("/ativos")
-	@PreAuthorize("hasRole('USER')")
 	public List<Person> findActive() {
 		return service.findActives();
 	}
 
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Person> create(@RequestBody @Valid Person obj) {
 		Person objSaved = service.create(obj);
 		return ResponseEntity.status(HttpStatus.CREATED).body(objSaved);
 	}
 	
-	@PutMapping
-	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping	
 	public ResponseEntity<Person> update(@RequestBody @Valid Person obj) {
 		Person objSaved = service.update(obj);
 		return ResponseEntity.ok(objSaved);
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Person> findById(@PathVariable Integer id) {
 		Person objSaved = service.findById(id);
 		return ResponseEntity.ok(objSaved);
 	}
 	
 	@PutMapping("/alterar-status/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Person> changeStatus(@PathVariable Integer id) {
 		Person objSaved = service.changeStatus(id);
 		return ResponseEntity.ok(objSaved);
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Integer id) {
 		service.delete(id);

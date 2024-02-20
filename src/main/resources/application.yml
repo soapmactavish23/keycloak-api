@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/keycloak?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/dev
+          jwk-set-uri: http://localhost:8080/realms/dev/protocol/openid-connect/certs
+
+server:
+  port: 3000
